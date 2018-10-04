@@ -72,6 +72,11 @@
             <i class="btn-service-icon fa fa-sign-in"></i>
             Sign in with {{oauth.generic_oauth.name}}
           </a>
+          <a class="btn btn-medium btn-inverse btn-service btn-service--oauth login-btn" href="login/phabricator" target="_self"
+            ng-if="oauth.phabricator">
+            <i class="btn-service-icon fa fa-sign-in"></i>
+            Sign in with {{oauth.phabricator.name}}
+          </a>
         </div>
         <div class="login-signup-box" ng-show="!disableUserSignUp">
           <div class="login-signup-title p-r-1">

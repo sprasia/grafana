@@ -55,7 +55,7 @@ const (
 var (
 	SocialBaseUrl = "/login/"
 	SocialMap     = make(map[string]SocialConnector)
-	allOauthes    = []string{"github", "gitlab", "google", "generic_oauth", "grafananet", grafanaCom}
+	allOauthes    = []string{"github", "gitlab", "google", "generic_oauth", "grafananet", grafanaCom, "phabricator"}
 )
 
 func NewOAuthService() {
@@ -167,6 +167,20 @@ func NewOAuthService() {
 				apiUrl:               info.ApiUrl,
 				allowSignup:          info.AllowSignup,
 				emailAttributeName:   info.EmailAttributeName,
+				teamIds:              sec.Key("team_ids").Ints(","),
+				allowedOrganizations: util.SplitString(sec.Key("allowed_organizations").String()),
+			}
+		}
+
+		if name == "phabricator" {
+			SocialMap["phabricator"] = &SocialPhabricatorOAuth{
+				SocialBase: &SocialBase{
+					Config: &config,
+					log: logger,
+				},
+				allowedDomains:       info.AllowedDomains,
+				apiUrl:               info.ApiUrl,
+				allowSignup:          info.AllowSignup,
 				teamIds:              sec.Key("team_ids").Ints(","),
 				allowedOrganizations: util.SplitString(sec.Key("allowed_organizations").String()),
 			}
